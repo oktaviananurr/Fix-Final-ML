@@ -1,0 +1,6 @@
+train: /content/datasets/train/images
+val: /content/datasets/valid/images
+test: /content/datasets/test/images
+
+nc: 10
+names: ['biang_keringat', 'bisul', 'herpes', 'jerawat', 'kanker_melanoma', 'kurap', 'kutil', 'psoriasis', 'seborrheic_keratoses', 'urtikaria']

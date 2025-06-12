@@ -1,0 +1,112 @@
+[
+  {
+    "index": 0,
+    "label": "biang_keringat",
+    "name": "Miliaria",
+    "instructions": [
+      "Kompres area yang terkena dengan kain lembap atau es batu yang dibalut kain selama maksimal 20 menit setiap jam.",
+      "Bersihkan area dengan air mengalir dan sabun berbahan lembut.",
+      "Gunakan bedak talek untuk mengurangi rasa tidak nyaman.",
+      "Hindari pakaian ketat dan lingkungan panas untuk mencegah iritasi lebih lanjut."
+    ]
+  },
+  {
+    "index": 1,
+    "label": "bisul",
+    "name": "Furunkel",
+    "instructions": [
+      "Kompres hangat area bisul selama 10–15 menit, 3–4 kali sehari.",
+      "Jangan memencet atau memecahkan bisul secara paksa.",
+      "Jika bisul besar atau tidak membaik dalam beberapa hari, konsultasikan dengan dokter.",
+      "Jaga kebersihan area dan hindari menyentuh bisul dengan tangan kotor."
+    ]
+  },
+  {
+    "index": 2,
+    "label": "herpes",
+    "name": "Herpes Simplex",
+    "instructions": [
+      "Gunakan obat antivirus seperti asiklovir, famsiklovir, atau valasiklovir sesuai resep dokter.",
+      "Hindari kontak langsung dengan luka untuk mencegah penyebaran.",
+      "Gunakan salep atau krim yang direkomendasikan untuk meredakan gejala.",
+      "Kelola stres dan jaga sistem imun untuk mencegah kambuhnya infeksi."
+    ]
+  },
+  {
+    "index": 3,
+    "label": "jerawat",
+    "name": "Acne Vulgaris",
+    "instructions": [
+      "Bersihkan wajah dua kali sehari dengan pembersih yang lembut.",
+      "Gunakan produk perawatan yang mengandung benzoyl peroxide atau asam salisilat.",
+      "Hindari memencet jerawat untuk mencegah infeksi dan bekas luka.",
+      "Konsultasikan dengan dokter kulit untuk perawatan lebih lanjut seperti terapi cahaya atau obat oral."
+    ]
+  },
+  {
+    "index": 4,
+    "label": "kanker_melanoma",
+    "name": "Melanoma",
+    "instructions": [
+      "Segera konsultasikan dengan dokter spesialis kulit atau onkologi.",
+      "Lakukan pemeriksaan menyeluruh untuk menentukan stadium kanker.",
+      "Perawatan dapat meliputi pembedahan, terapi radiasi, kemoterapi, atau imunoterapi tergantung pada stadium dan kondisi pasien.",
+      "Pantau secara rutin untuk mendeteksi kemungkinan kambuh atau penyebaran."
+    ]
+  },
+  {
+    "index": 5,
+    "label": "kurap",
+    "name": "Tinea",
+    "instructions": [
+      "Gunakan krim antijamur yang mengandung miconazole atau clotrimazole sesuai petunjuk.",
+      "Jaga area yang terinfeksi tetap bersih dan kering.",
+      "Hindari berbagi handuk atau pakaian dengan orang lain.",
+      "Jika infeksi tidak membaik dalam 2 minggu, konsultasikan dengan dokter untuk pengobatan oral."
+    ]
+  },
+  {
+    "index": 6,
+    "label": "kutil",
+    "name": "Verruca",
+    "instructions": [
+      "Gunakan plester yang mengandung asam salisilat sesuai petunjuk.",
+      "Rendam kutil dalam air hangat selama 15 menit sebelum pengobatan.",
+      "Jika kutil tidak hilang setelah beberapa minggu, konsultasikan dengan dokter untuk perawatan seperti cryotherapy atau penggunaan cantharidin.",
+      "Hindari menggaruk atau memotong kutil sendiri."
+    ]
+  },
+  {
+    "index": 7,
+    "label": "psoriasis",
+    "name": "Psoriasis",
+    "instructions": [
+      "Gunakan krim atau salep yang mengandung kortikosteroid sesuai resep dokter.",
+      "Pertimbangkan terapi cahaya UVB di bawah pengawasan medis.",
+      "Konsumsi obat sistemik atau biologis jika direkomendasikan oleh dokter.",
+      "Kelola stres dan hindari pemicu yang dapat memperburuk gejala."
+    ]
+  },
+  {
+    "index": 8,
+    "label": "seborrheic_keratoses",
+    "name": "Keratotis Seboroik",
+    "instructions": [
+      "Biasanya tidak memerlukan perawatan kecuali untuk alasan kosmetik.",
+      "Jika diinginkan, konsultasikan dengan dokter untuk prosedur pengangkatan seperti cryotherapy atau kuretase.",
+      "Pantau perubahan pada lesi dan konsultasikan jika ada perubahan warna, bentuk, atau ukuran.",
+      "Hindari menggaruk atau mencoba menghilangkan lesi sendiri."
+    ]
+  },
+  {
+    "index": 9,
+    "label": "urtikaria",
+    "name": "Urtikaria",
+    "instructions": [
+      "Konsumsi antihistamin untuk meredakan gatal dan ruam.",
+      "Identifikasi dan hindari pemicu seperti makanan, obat, atau stres.",
+      "Kompres dingin area yang terkena untuk mengurangi ketidaknyamanan.",
+      "Jika gejala parah atau berlangsung lebih dari beberapa hari, konsultasikan dengan dokter."
+    ]
+  }
+]

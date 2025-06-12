@@ -1,0 +1,71 @@
+.stButton>button {
+    /* background-color: #1f77b4; */
+    color: black;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: #fff;
+    border: none;
+}
+
+.stButton>button:hover {
+    cursor: pointer;
+    background-color: #a2c4c9;
+    color: black;
+
+}
+
+
+/* General Reset */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: transparent;
+}
+
+/* Hero */
+.hero {
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    padding: 2rem;
+    border-radius: 15px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Card Container */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.card {
+    flex: 1 1 calc(45%);
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.card h4 {
+    margin-bottom: 0.5rem;
+    color: #e53935;
+}
+
+
+
+
