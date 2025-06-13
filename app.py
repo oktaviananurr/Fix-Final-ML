@@ -13,7 +13,7 @@ from detect import run  # Assuming your detect.py and best.pt are in the correct
 # --- Page Configuration ---
 st.set_page_config(page_title="Deteksi Penyakit Kulit", page_icon="🔬", layout="centered")
 gambar_header =  "https://images.app.goo.gl/1idLX4FqVgfAsAoY8"
-st.image(gambar_header, use_column_width=True, width=50)
+st.image(gambar_header, use_container_width=True)
 
 st.write(
     f"""
