@@ -12,6 +12,19 @@ from detect import run  # Assuming your detect.py and best.pt are in the correct
 
 # --- Page Configuration ---
 st.set_page_config(page_title="Deteksi Penyakit Kulit", page_icon="🔬", layout="centered")
+gambar_header =  "https://images.app.goo.gl/1idLX4FqVgfAsAoY8"
+st.image(gambar_header, use_column_width=True, width=50)
+
+st.write(
+    f"""
+    <style>
+        .stApp {{
+            background-color: #B7CEEB;
+        }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # --- Environment Variable (Optional, good practice) ---
 # os.environ["STREAMLIT_SERVER_RUN_ON_SAVE"] = "false" # Keep if needed
