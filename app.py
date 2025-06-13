@@ -12,8 +12,6 @@ from detect import run  # Assuming your detect.py and best.pt are in the correct
 
 # --- Page Configuration ---
 st.set_page_config(page_title="Deteksi Penyakit Kulit", page_icon="🔬", layout="centered")
-gambar_header =  "https://github.com/oktaviananurr/Fix-Final-ML/blob/main/ilustrasi-mata_169.jpeg"
-st.image(gambar_header, use_container_width=True)
 
 st.write(
     f"""
