@@ -12,7 +12,7 @@ from detect import run  # Assuming your detect.py and best.pt are in the correct
 
 # --- Page Configuration ---
 st.set_page_config(page_title="Deteksi Penyakit Kulit", page_icon="🔬", layout="centered")
-gambar_header =  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.detik.com%2Fsumut%2Fberita%2Fd-7502645%2F10-tips-menjaga-kesehatan-mata&psig=AOvVaw18nIFTBQdLWoz9kkDm3GCu&ust=1749883307878000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMikr7rl7Y0DFQAAAAAdAAAAABAL"
+gambar_header =  "https://github.com/oktaviananurr/Fix-Final-ML/blob/main/ilustrasi-mata_169.jpeg"
 st.image(gambar_header, use_container_width=True)
 
 st.write(
