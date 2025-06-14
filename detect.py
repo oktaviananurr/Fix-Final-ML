@@ -37,8 +37,7 @@ import pathlib
 from pathlib import Path
 import shutil
 
-temp = pathlib.PosixPath
-pathlib.PosixPath = pathlib.WindowsPath
+model_path = Path("best.pt")  
 
 import torch
 
