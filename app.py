@@ -10,6 +10,14 @@ from glob import glob
 from collections import Counter
 from detect import run  # Assuming your detect.py and best.pt are in the correct path
 
+import pathlib
+import platform
+
+# Patch agar WindowsPath dari model tidak error di Linux
+if platform.system() != 'Windows':
+    pathlib.WindowsPath = pathlib.PosixPath
+
+
 # --- Page Configuration ---
 st.set_page_config(page_title="Deteksi Penyakit Kulit", page_icon="🔬", layout="centered")
 
@@ -120,7 +128,8 @@ def run_detection_logic(file):
 
 # --- Main Application UI ---
 st.header("Deteksi Penyakit Kulit")
-
+gambar_header =  "https://images.app.goo.gl/1idLX4FqVgfAsAoY8"
+st.image(gambar_header, use_column_width=True, width=50)
 
 st.markdown("Berikut adalah penjelasan singkat mengenai beberapa jenis penyakit kulit yang dapat dideteksi:")
 
