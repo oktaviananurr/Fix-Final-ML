@@ -21,6 +21,17 @@ if platform.system() != 'Windows':
 # --- Page Configuration ---
 st.set_page_config(page_title="Deteksi Penyakit Kulit", page_icon="🔬", layout="centered")
 
+st.write(
+    f"""
+    <style>
+        .stApp {{
+            background-color: #B7CEEB;
+        }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # --- Environment Variable (Optional, good practice) ---
 # os.environ["STREAMLIT_SERVER_RUN_ON_SAVE"] = "false" # Keep if needed
 
