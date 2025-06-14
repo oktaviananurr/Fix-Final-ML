@@ -10,14 +10,6 @@ from glob import glob
 from collections import Counter
 from detect import run  # Assuming your detect.py and best.pt are in the correct path
 
-import pathlib
-import platform
-
-# Patch agar WindowsPath dari model tidak error di Linux
-if platform.system() != 'Windows':
-    pathlib.WindowsPath = pathlib.PosixPath
-
-
 # --- Page Configuration ---
 st.set_page_config(page_title="Deteksi Penyakit Kulit", page_icon="🔬", layout="centered")
 
@@ -93,39 +85,35 @@ def run_detection_logic(file):
 
     with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
         cv2.imwrite(tmp.name, image)
-        tmp_path = tmp.name
+        tmp_path = tmp.name  # Tetap string, hindari Path()
 
     result = {"filename": file.name, "labels": [], "image_path": None, "error": None}
 
     try:
-        # Ensure the 'detect' script and 'best.pt' are correctly set up.
-        # The 'project' argument defines where 'runs/detect/exp*' folders are created.
-        # The 'name' argument defines the 'exp*' folder name. Using a generic name.
-        run(weights='best.pt', source=tmp_path, conf_thres=0.3, imgsz=(640, 640),
-            save_txt=True, save_conf=True, save_crop=False, project='runs/detect/exp', name='exp', exist_ok=True) # Added project, name, exist_ok
+        # Jalankan deteksi YOLOv8
+        run(weights='best.pt', source=str(tmp_path), conf_thres=0.3, imgsz=(640, 640),
+            save_txt=True, save_conf=True, save_crop=False, project='runs/detect/exp', name='exp', exist_ok=True)
 
-        latest_exp = get_latest_exp_folder() # This should now point to 'runs/detect/exp' or 'runs/detect/exp2' etc.
+        latest_exp = get_latest_exp_folder()
 
         if latest_exp:
             img_path = os.path.join(latest_exp, os.path.basename(tmp_path))
             txt_path = os.path.join(latest_exp, "labels", os.path.splitext(os.path.basename(tmp_path))[0] + ".txt")
 
             if not os.path.exists(img_path):
-                # Fallback if image is directly in latest_exp (e.g. if source was a dir)
                 possible_image_files = glob(os.path.join(latest_exp, os.path.splitext(os.path.basename(tmp_path))[0] + ".*"))
                 if possible_image_files:
                     img_path = possible_image_files[0]
                 else:
                     result["error"] = f"Detected image not found in {latest_exp} for {os.path.basename(tmp_path)}"
-                    img_path = None # ensure it's None
+                    img_path = None
 
             labels = read_detection_labels(txt_path)
-            label_names = [class_names[c] for c in labels if c < len(class_names)] # Added safety check
+            label_names = [class_names[c] for c in labels if c < len(class_names)]
 
-            result.update({"labels": label_names, "image_path": img_path if os.path.exists(img_path) else None})
+            result.update({"labels": label_names, "image_path": img_path if img_path and os.path.exists(img_path) else None})
             if img_path and not os.path.exists(img_path):
-                 result["error"] = result.get("error", "") + f" Image path {img_path} does not exist."
-
+                result["error"] = result.get("error", "") + f" Image path {img_path} does not exist."
         else:
             result["error"] = "❌ Folder hasil deteksi (exp*) tidak ditemukan di 'runs/detect'."
     except Exception as e:
@@ -136,6 +124,7 @@ def run_detection_logic(file):
             os.remove(tmp_path)
 
     return result
+
 
 # --- Main Application UI ---
 st.header("Deteksi Penyakit Kulit")
