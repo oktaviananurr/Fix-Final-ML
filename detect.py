@@ -1,33 +1,3 @@
-# Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
-"""
-Run YOLOv5 detection inference on images, videos, directories, globs, YouTube, webcam, streams, etc.
-
-Usage - sources:
-    $ python detect.py --weights yolov5s.pt --source 0                               # webcam
-                                                     img.jpg                         # image
-                                                     vid.mp4                         # video
-                                                     screen                          # screenshot
-                                                     path/                           # directory
-                                                     list.txt                        # list of images
-                                                     list.streams                    # list of streams
-                                                     'path/*.jpg'                    # glob
-                                                     'https://youtu.be/LNwODJXcvt4'  # YouTube
-                                                     'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP stream
-
-Usage - formats:
-    $ python detect.py --weights yolov5s.pt                 # PyTorch
-                                 yolov5s.torchscript        # TorchScript
-                                 yolov5s.onnx               # ONNX Runtime or OpenCV DNN with --dnn
-                                 yolov5s_openvino_model     # OpenVINO
-                                 yolov5s.engine             # TensorRT
-                                 yolov5s.mlpackage          # CoreML (macOS-only)
-                                 yolov5s_saved_model        # TensorFlow SavedModel
-                                 yolov5s.pb                 # TensorFlow GraphDef
-                                 yolov5s.tflite             # TensorFlow Lite
-                                 yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
-                                 yolov5s_paddle_model       # PaddlePaddle
-"""
-
 import argparse
 import csv
 import os
@@ -37,7 +7,10 @@ import pathlib
 from pathlib import Path
 import shutil
 
-model_path = Path("best.pt")  
+# --- PATCH UNTUK WINDOWS PATH ERROR ---
+import platform
+if platform.system() != 'Windows':
+    pathlib.WindowsPath = pathlib.PosixPath
 
 import torch
 
@@ -103,56 +76,6 @@ def run(
     dnn=False,  # use OpenCV DNN for ONNX inference
     vid_stride=1,  # video frame-rate stride
 ):
-    """
-    Runs YOLOv5 detection inference on various sources like images, videos, directories, streams, etc.
-
-    Args:
-        weights (str | Path): Path to the model weights file or a Triton URL. Default is 'yolov5s.pt'.
-        source (str | Path): Input source, which can be a file, directory, URL, glob pattern, screen capture, or webcam
-            index. Default is 'data/images'.
-        data (str | Path): Path to the dataset YAML file. Default is 'data/coco128.yaml'.
-        imgsz (tuple[int, int]): Inference image size as a tuple (height, width). Default is (640, 640).
-        conf_thres (float): Confidence threshold for detections. Default is 0.25.
-        iou_thres (float): Intersection Over Union (IOU) threshold for non-max suppression. Default is 0.45.
-        max_det (int): Maximum number of detections per image. Default is 1000.
-        device (str): CUDA device identifier (e.g., '0' or '0,1,2,3') or 'cpu'. Default is an empty string, which uses the
-            best available device.
-        view_img (bool): If True, display inference results using OpenCV. Default is False.
-        save_txt (bool): If True, save results in a text file. Default is False.
-        save_csv (bool): If True, save results in a CSV file. Default is False.
-        save_conf (bool): If True, include confidence scores in the saved results. Default is False.
-        save_crop (bool): If True, save cropped prediction boxes. Default is False.
-        nosave (bool): If True, do not save inference images or videos. Default is False.
-        classes (list[int]): List of class indices to filter detections by. Default is None.
-        agnostic_nms (bool): If True, perform class-agnostic non-max suppression. Default is False.
-        augment (bool): If True, use augmented inference. Default is False.
-        visualize (bool): If True, visualize feature maps. Default is False.
-        update (bool): If True, update all models' weights. Default is False.
-        project (str | Path): Directory to save results. Default is 'runs/detect'.
-        name (str): Name of the current experiment; used to create a subdirectory within 'project'. Default is 'exp'.
-        exist_ok (bool): If True, existing directories with the same name are reused instead of being incremented. Default is
-            False.
-        line_thickness (int): Thickness of bounding box lines in pixels. Default is 3.
-        hide_labels (bool): If True, do not display labels on bounding boxes. Default is False.
-        hide_conf (bool): If True, do not display confidence scores on bounding boxes. Default is False.
-        half (bool): If True, use FP16 half-precision inference. Default is False.
-        dnn (bool): If True, use OpenCV DNN backend for ONNX inference. Default is False.
-        vid_stride (int): Stride for processing video frames, to skip frames between processing. Default is 1.
-
-    Returns:
-        None
-
-    Examples:
-        ```python
-        from ultralytics import run
-
-        # Run inference on an image
-        run(source='data/images/example.jpg', weights='yolov5s.pt', device='0')
-
-        # Run inference on a video with specific confidence threshold
-        run(source='data/videos/example.mp4', weights='yolov5s.pt', conf_thres=0.4, device='0')
-        ```
-    """
     source = str(source)
     save_img = not nosave and not source.endswith(".txt")  # save inference images
     is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
@@ -163,9 +86,6 @@ def run(
         source = check_file(source)  # download
 
     # Directories
-    # save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
-    # (save_dir / "labels" if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
-    
     save_dir = Path(project) / name
     if save_dir.exists():
         shutil.rmtree(save_dir)
@@ -173,6 +93,8 @@ def run(
 
     # Load model
     device = select_device(device)
+    # MODIFICATION: Ensure weights path is a string, handle potential Windows paths
+    weights = str(weights)  # Convert weights to string
     model = DetectMultiBackend(weights, device=device, dnn=dnn, data=data, fp16=half)
     stride, names, pt = model.stride, model.names, model.pt
     imgsz = check_img_size(imgsz, s=stride)  # check image size
@@ -286,37 +208,37 @@ def run(
                         c = int(cls)  # integer class
                         label = None if hide_labels else (names[c] if hide_conf else f"{names[c]} {conf:.2f}")
                         annotator.box_label(xyxy, label, color=colors(c, True))
-                    if save_crop:
-                        save_one_box(xyxy, imc, file=save_dir / "crops" / names[c] / f"{p.stem}.jpg", BGR=True)
+                        if save_crop:
+                            save_one_box(xyxy, imc, file=save_dir / "crops" / names[c] / f"{p.stem}.jpg", BGR=True)
 
-            # Stream results
-            im0 = annotator.result()
-            if view_img:
-                if platform.system() == "Linux" and p not in windows:
-                    windows.append(p)
-                    cv2.namedWindow(str(p), cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)  # allow window resize (Linux)
-                    cv2.resizeWindow(str(p), im0.shape[1], im0.shape[0])
-                cv2.imshow(str(p), im0)
-                cv2.waitKey(1)  
+        # Stream results
+        im0 = annotator.result()
+        if view_img:
+            if platform.system() == "Linux" and p not in windows:
+                windows.append(p)
+                cv2.namedWindow(str(p), cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)  # allow window resize (Linux)
+                cv2.resizeWindow(str(p), im0.shape[1], im0.shape[0])
+            cv2.imshow(str(p), im0)
+            cv2.waitKey(1)
 
-            # Save results (image with detections)
-            if save_img:
-                if dataset.mode == "image":
-                    cv2.imwrite(save_path, im0)
-                else:  # 'video' or 'stream'
-                    if vid_path[i] != save_path:  # new video
-                        vid_path[i] = save_path
-                        if isinstance(vid_writer[i], cv2.VideoWriter):
-                            vid_writer[i].release()  # release previous video writer
-                        if vid_cap:  # video
-                            fps = vid_cap.get(cv2.CAP_PROP_FPS)
-                            w = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-                            h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-                        else:  # stream
-                            fps, w, h = 30, im0.shape[1], im0.shape[0]
-                        save_path = str(Path(save_path).with_suffix(".mp4"))  # force *.mp4 suffix on results videos
-                        vid_writer[i] = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
-                    vid_writer[i].write(im0)
+        # Save results (image with detections)
+        if save_img:
+            if dataset.mode == "image":
+                cv2.imwrite(save_path, im0)
+            else:  # 'video' or 'stream'
+                if vid_path[i] != save_path:  # new video
+                    vid_path[i] = save_path
+                    if isinstance(vid_writer[i], cv2.VideoWriter):
+                        vid_writer[i].release()  # release previous video writer
+                    if vid_cap:  # video
+                        fps = vid_cap.get(cv2.CAP_PROP_FPS)
+                        w = int(vid_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+                        h = int(vid_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+                    else:  # stream
+                        fps, w, h = 30, im0.shape[1], im0.shape[0]
+                    save_path = str(Path(save_path).with_suffix(".mp4"))  # force *.mp4 suffix on results videos
+                    vid_writer[i] = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
+                vid_writer[i].write(im0)
 
         # Print time (inference-only)
         LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1e3:.1f}ms")
@@ -332,49 +254,6 @@ def run(
 
 
 def parse_opt():
-    """
-    Parse command-line arguments for YOLOv5 detection, allowing custom inference options and model configurations.
-
-    Args:
-        --weights (str | list[str], optional): Model path or Triton URL. Defaults to ROOT / 'yolov5s.pt'.
-        --source (str, optional): File/dir/URL/glob/screen/0(webcam). Defaults to ROOT / 'data/images'.
-        --data (str, optional): Dataset YAML path. Provides dataset configuration information.
-        --imgsz (list[int], optional): Inference size (height, width). Defaults to [640].
-        --conf-thres (float, optional): Confidence threshold. Defaults to 0.25.
-        --iou-thres (float, optional): NMS IoU threshold. Defaults to 0.45.
-        --max-det (int, optional): Maximum number of detections per image. Defaults to 1000.
-        --device (str, optional): CUDA device, i.e., '0' or '0,1,2,3' or 'cpu'. Defaults to "".
-        --view-img (bool, optional): Flag to display results. Defaults to False.
-        --save-txt (bool, optional): Flag to save results to *.txt files. Defaults to False.
-        --save-csv (bool, optional): Flag to save results in CSV format. Defaults to False.
-        --save-conf (bool, optional): Flag to save confidences in labels saved via --save-txt. Defaults to False.
-        --save-crop (bool, optional): Flag to save cropped prediction boxes. Defaults to False.
-        --nosave (bool, optional): Flag to prevent saving images/videos. Defaults to False.
-        --classes (list[int], optional): List of classes to filter results by, e.g., '--classes 0 2 3'. Defaults to None.
-        --agnostic-nms (bool, optional): Flag for class-agnostic NMS. Defaults to False.
-        --augment (bool, optional): Flag for augmented inference. Defaults to False.
-        --visualize (bool, optional): Flag for visualizing features. Defaults to False.
-        --update (bool, optional): Flag to update all models in the model directory. Defaults to False.
-        --project (str, optional): Directory to save results. Defaults to ROOT / 'runs/detect'.
-        --name (str, optional): Sub-directory name for saving results within --project. Defaults to 'exp'.
-        --exist-ok (bool, optional): Flag to allow overwriting if the project/name already exists. Defaults to False.
-        --line-thickness (int, optional): Thickness (in pixels) of bounding boxes. Defaults to 3.
-        --hide-labels (bool, optional): Flag to hide labels in the output. Defaults to False.
-        --hide-conf (bool, optional): Flag to hide confidences in the output. Defaults to False.
-        --half (bool, optional): Flag to use FP16 half-precision inference. Defaults to False.
-        --dnn (bool, optional): Flag to use OpenCV DNN for ONNX inference. Defaults to False.
-        --vid-stride (int, optional): Video frame-rate stride, determining the number of frames to skip in between
-            consecutive frames. Defaults to 1.
-
-    Returns:
-        argparse.Namespace: Parsed command-line arguments as an argparse.Namespace object.
-
-    Example:
-        ```python
-        from ultralytics import YOLOv5
-        args = YOLOv5.parse_opt()
-        ```
-    """
     parser = argparse.ArgumentParser()
     parser.add_argument("--weights", nargs="+", type=str, default=ROOT / "yolov5m.pt", help="model path or triton URL")
     parser.add_argument("--source", type=str, default=ROOT / "data/images", help="file/dir/URL/glob/screen/0(webcam)")
@@ -417,28 +296,6 @@ def parse_opt():
 
 
 def main(opt):
-    """
-    Executes YOLOv5 model inference based on provided command-line arguments, validating dependencies before running.
-
-    Args:
-        opt (argparse.Namespace): Command-line arguments for YOLOv5 detection. See function `parse_opt` for details.
-
-    Returns:
-        None
-
-    Note:
-        This function performs essential pre-execution checks and initiates the YOLOv5 detection process based on user-specified
-        options. Refer to the usage guide and examples for more information about different sources and formats at:
-        https://github.com/ultralytics/ultralytics
-
-    Example usage:
-
-    ```python
-    if __name__ == "__main__":
-        opt = parse_opt()
-        main(opt)
-    ```
-    """
     check_requirements(ROOT / "requirements.txt", exclude=("tensorboard", "thop"))
     run(**vars(opt))
 
