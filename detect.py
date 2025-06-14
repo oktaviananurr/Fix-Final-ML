@@ -9,16 +9,16 @@ import shutil
 
 # --- PATCH UNTUK WINDOWS PATH ERROR ---
 import platform
-if platform.system() != 'Windows':
-    pathlib.WindowsPath = pathlib.PosixPath
+def safe_path(p):
+    return Path(p) if not isinstance(p, Path) else p
 
 import torch
 
-FILE = Path(__file__).resolve()
+FILE = safe_path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
-ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
+ROOT = safe_path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 from ultralytics.utils.plotting import Annotator, colors, save_one_box
 
