@@ -101,8 +101,8 @@ def run_detection_logic(file):
         # Ensure the 'detect' script and 'best.pt' are correctly set up.
         # The 'project' argument defines where 'runs/detect/exp*' folders are created.
         # The 'name' argument defines the 'exp*' folder name. Using a generic name.
-        run(weights='./best.pt', source=tmp_path, conf_thres=0.3, imgsz=(640, 640),
-            save_txt=True, save_conf=True, save_crop=False, project='runs/detect', name='exp', exist_ok=True) # Added project, name, exist_ok
+        run(weights='best.pt', source=tmp_path, conf_thres=0.3, imgsz=(640, 640),
+            save_txt=True, save_conf=True, save_crop=False, project='runs/detect/exp', name='exp', exist_ok=True) # Added project, name, exist_ok
 
         latest_exp = get_latest_exp_folder() # This should now point to 'runs/detect/exp' or 'runs/detect/exp2' etc.
 
@@ -139,7 +139,7 @@ def run_detection_logic(file):
 
 # --- Main Application UI ---
 st.header("Deteksi Penyakit Kulit")
-gambar_header =  "https://images.app.goo.gl/1idLX4FqVgfAsAoY8"
+gambar_header =  "header penyakit kulit.jpg"
 st.image(gambar_header, use_column_width=True, width=50)
 
 st.markdown("Berikut adalah penjelasan singkat mengenai beberapa jenis penyakit kulit yang dapat dideteksi:")
